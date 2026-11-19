@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    if grep -q "mainuan-video-player: icon override" /usr/local/share/applications/mpv.desktop 2>/dev/null; then
+        rm -f /usr/local/share/applications/mpv.desktop
+    fi
+    command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database -q /usr/share/applications || true
+    command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database -q /usr/local/share/applications || true
+    command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+fi
+exit 0

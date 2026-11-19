@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+if [ "$1" = "configure" ]; then
+    # Recolour the mpv media player launcher icon (Mainuan blue) without touching mpv's own files
+    if [ -f /usr/share/applications/mpv.desktop ]; then
+        mkdir -p /usr/local/share/applications
+        sed -e 's/^Icon=.*/Icon=mainuan-mpv/' /usr/share/applications/mpv.desktop > /usr/local/share/applications/mpv.desktop
+        chmod 644 /usr/local/share/applications/mpv.desktop
+        echo "# mainuan-video-player: icon override" >> /usr/local/share/applications/mpv.desktop
+    fi
+    command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database -q /usr/share/applications || true
+    command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database -q /usr/local/share/applications || true
+    command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+fi
+exit 0

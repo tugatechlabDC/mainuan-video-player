@@ -1,0 +1,5 @@
+#!/bin/sh
+# Mainuan video player launcher
+LIB=/usr/lib/mainuan-video-player
+export LD_PRELOAD="$LIB/libmainuan-shim.so:$LIB/libmainuan-theme.so${LD_PRELOAD:+:$LD_PRELOAD}"
+exec $LIB/mainuan-video-player-bin "$@"
